@@ -1,0 +1,43 @@
+{
+  "name": "changelog-customizable",
+  "description": "A grunt task to generate changelog from git repository.",
+  "version": "0.1.0",
+  "homepage": "https://github.com/wallet77/changelog-customizable",
+  "author": {
+    "name": "Vincent Vallet",
+    "email": "wallet77@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wallet77/changelog-customizable.git"
+  },
+  "bugs": {
+    "url": "https://github.com/wallet77/changelog-customizable/issues"
+  },
+  "licenses": [
+    {
+      "type": "GNU",
+      "url": "https://github.com/wallet77/changelog-customizable/blob/master/LICENSE-GNU"
+    }
+  ],
+  "engines": {
+    "node": "0.12.7"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "^0.9.2",
+    "grunt-contrib-clean": "^0.5.0",
+    "grunt-contrib-nodeunit": "^0.3.3",
+    "grunt": "~0.4.5"
+  },
+  "keywords": [
+    "gruntplugin"
+  ],
+  "dependencies": {
+    "handlebars": "^4.0.5",
+    "moment": "^2.13.0",
+    "semver": "^5.1.0"
+  }
+}
