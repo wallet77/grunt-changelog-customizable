@@ -33,18 +33,18 @@ module.exports = function(grunt) {
       default_options: {
         options: {
         },
-        files: {
-          'tmp/default_options': ['test/fixtures/testing']
-        }
+        //files: {
+        //  'tmp/default_options': ['test/fixtures/testing']
+        //}
       },
       custom_options: {
         options: {
-          separator: ': ',
-          punctuation: ' !!!'
+          dest: 'release-notes/prod/changelog.md',
+          header: 'Custom header'
         },
-        files: {
-          'tmp/custom_options': ['test/fixtures/testing']
-        }
+        //files: {
+        //  'tmp/custom_options': ['test/fixtures/testing']
+        //}
       }
     },
 
