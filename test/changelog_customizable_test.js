@@ -41,7 +41,7 @@ exports.changelog_customizable = {
     custom_options: function (test) {
         test.expect(1);
 
-        var actual = grunt.file.read('release-notes/prod/changelog.md').replace(/(\r\n|\n|\r)/gm,"");
+        var actual = grunt.file.read('release-notes/release/changelog.md').replace(/(\r\n|\n|\r)/gm,"");
         var expected = grunt.file.read('test/expected/custom_options').replace(/(\r\n|\n|\r)/gm,"");
         test.equal(actual, expected, 'should describe what the custom option(s) behavior is.');
 

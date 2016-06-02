@@ -38,7 +38,11 @@ module.exports = function (grunt) {
             },
             custom_options: {
                 options: {
-                    dest: 'release-notes/prod/changelog.md',
+                    dest: {
+                        dir: './release-notes/release/',
+                        fileName: 'changelog',
+                        extension: 'md'
+                    },
                     header: 'Custom header'
                 },
                 //files: {

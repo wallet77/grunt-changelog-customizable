@@ -38,11 +38,25 @@ Utils.prototype.getTemplateData = function(log, options) {
 
 Utils.prototype.writeChangeLogFile = function(options, grunt, changelog) {
     var fileContents = null,
-        regex = null,
-        header = '';
+        header = '',
+        dest = '';
 
-    if (options.writeType && grunt.file.exists(options.dest)) {
-        fileContents = grunt.file.read(options.dest);
+    if(!options.dest) {
+        grunt.fatal('No destination file specified !');
+    }
+
+    if(!options.dest.fileName) {
+        grunt.fatal('No destination fileName');
+    }
+
+    if(!options.dest.dir) {
+        grunt.fatal('No destination directory');
+    }
+
+    dest = options.dest.dir + options.dest.fileName + '.' + options.dest.extension;
+
+    if (options.writeType && grunt.file.exists(dest)) {
+        fileContents = grunt.file.read(dest);
 
         if(options.writeType === 'append') {
             changelog = changelog + '\n' + fileContents;
@@ -58,14 +72,16 @@ Utils.prototype.writeChangeLogFile = function(options, grunt, changelog) {
         header = options.header;
     }
 
-    changelog = '#' + header + '\n\n' + changelog;
+    if(header.length > 0) {
+        changelog = '#' + header + '\n\n' + changelog;
+    }
 
-    grunt.file.write(options.dest, changelog);
+    grunt.file.write(dest, changelog);
 
     // Log the results.
     grunt.log.ok(changelog);
     grunt.log.writeln();
-    grunt.log.writeln('Changelog generated at '+ options.dest.toString().cyan);
+    grunt.log.writeln('Changelog generated at '+ dest.toString().cyan);
 };
 
 module.exports = new Utils();

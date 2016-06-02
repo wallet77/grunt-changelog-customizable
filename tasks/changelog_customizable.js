@@ -22,14 +22,18 @@ module.exports = function (grunt) {
                 start: null,
                 end: null,
                 header: 'Changelog',
-                dest: 'changelog.md',
+                dest: {
+                    dir: './',
+                    fileName: 'changelog',
+                    extension: 'md'
+                },
                 type: 'dev',
                 template: '{{> features}}{{> fixes}}',
                 templates: {
                     features: {
                         regex: {
                             dev: /^(.*)\[FEATURE\](.*)$/gim,
-                            prod: /^(.*)closes #\d+:?(.*)$/gim
+                            release: /^(.*)closes #\d+:?(.*)$/gim
                         },
                         template: '##FEATURE:\n\n{{#if features}}{{#each features}}{{> feature}}{{/each}}{{else}}{{/if}}\n'
                     },
@@ -39,7 +43,7 @@ module.exports = function (grunt) {
                     fixes: {
                         regex: {
                             dev: /^(.*)fixes #\d+:?(.*)$/gim,
-                            prod: /^(.*)fixes #\d+:?(.*)$/gim
+                            release: /^(.*)fixes #\d+:?(.*)$/gim
                         },
                         template: '##FIXES:\n\n{{#if fixes}}{{#each fixes}}{{> fix}}{{/each}}{{else}}{{/if}}\n'
                     },

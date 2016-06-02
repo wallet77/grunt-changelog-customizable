@@ -56,10 +56,10 @@ Default value: 'Changelog'
 A string value that is put as generated file's header
 
 #### options.dest
-Type: `String`
-Default value: 'changelog.md'
+Type: `Object`
+Default value: see usage examples
 
-A string value for destination file
+A object to describe destination file
 
 #### options.template
 Type: `String`
@@ -86,14 +86,18 @@ grunt.initConfig({
         start: null,
         end: null,
         header: 'Changelog',
-        dest: 'changelog.md',
+        dest: {
+            dir: './',
+            fileName: 'changelog',
+            extension: 'md'
+        },
         type: 'dev',
         template: '{{> features}}{{> fixes}}',
         templates: {
             features: {
                 regex: {
                     dev: /^(.*)\[FEATURE\](.*)$/gim,
-                    prod: /^(.*)closes #\d+:?(.*)$/gim
+                    release: /^(.*)closes #\d+:?(.*)$/gim
                 },
                 template: '##FEATURE:\n\n{{#if features}}{{#each features}}{{> feature}}{{/each}}{{else}}{{/if}}\n'
             },
@@ -103,7 +107,7 @@ grunt.initConfig({
             fixes: {
                 regex: {
                     dev: /^(.*)fixes #\d+:?(.*)$/gim,
-                    prod: /^(.*)fixes #\d+:?(.*)$/gim
+                    release: /^(.*)fixes #\d+:?(.*)$/gim
                 },
                 template: '##FIXES:\n\n{{#if fixes}}{{#each fixes}}{{> fix}}{{/each}}{{else}}{{/if}}\n'
             },
