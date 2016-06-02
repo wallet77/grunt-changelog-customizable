@@ -37,53 +37,97 @@ grunt.initConfig({
 
 ### Options
 
-#### options.separator
+#### options.end
 Type: `String`
-Default value: `',  '`
+Default value: null
 
-A string value that is used to do something with whatever.
+A string value that is a date or a git tag
 
-#### options.punctuation
+#### options.start
 Type: `String`
-Default value: `'.'`
+Default value: null
 
-A string value that is used to do something else with whatever else.
+A string value that is a date or a git tag
+
+#### options.header
+Type: `String`
+Default value: 'Changelog'
+
+A string value that is put as generated file's header
+
+#### options.dest
+Type: `String`
+Default value: 'changelog.md'
+
+A string value for destination file
+
+#### options.template
+Type: `String`
+Default value: '{{> features}}{{> fixes}}'
+
+Defines the global template of generated file.
+
+#### options.templates
+Type: `Object`
+Default value: see Usage examples
+
+Defines all templates needed to generate your file.
 
 ### Usage Examples
 
 #### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
 
-```js
-grunt.initConfig({
-  changelog_customizable: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-});
-```
-
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
 
 ```js
 grunt.initConfig({
   changelog_customizable: {
     options: {
-      separator: ': ',
-      punctuation: ' !!!',
-    },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
+      {
+        start: null,
+        end: null,
+        header: 'Changelog',
+        dest: 'changelog.md',
+        type: 'dev',
+        template: '{{> features}}{{> fixes}}',
+        templates: {
+            features: {
+                regex: {
+                    dev: /^(.*)\[FEATURE\](.*)$/gim,
+                    prod: /^(.*)closes #\d+:?(.*)$/gim
+                },
+                template: '##FEATURE:\n\n{{#if features}}{{#each features}}{{> feature}}{{/each}}{{else}}{{/if}}\n'
+            },
+            feature: {
+                template: '\t{{{this}}}\n'
+            },
+            fixes: {
+                regex: {
+                    dev: /^(.*)fixes #\d+:?(.*)$/gim,
+                    prod: /^(.*)fixes #\d+:?(.*)$/gim
+                },
+                template: '##FIXES:\n\n{{#if fixes}}{{#each fixes}}{{> fix}}{{/each}}{{else}}{{/if}}\n'
+            },
+            fix: {
+                template: '\t{{{this}}}\n'
+            }
+        }
+      }
+    }
   },
 });
 ```
 
-## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
-
-## Release History
-_(Nothing yet)_
+will generate the following file :
+```js
+  #Changelog
+  
+  ##FEATURE:
+  
+  	first changelog generation with basic options
+  	commit readme and configuration files
+  
+  ##FIXES:
+  
+    first fix
+    second fix
+```
