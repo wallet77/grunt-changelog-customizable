@@ -1,6 +1,7 @@
 # changelog-customizable
 
 > A grunt task to generate changelog from git repository.
+Based on grunt-changelog project.
 
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
@@ -61,11 +62,37 @@ Default value: see usage examples
 
 A object to describe destination file
 
+#### options.type
+Type: `String`
+Default value: 'dev'
+
+A string to define what kind of changelog to generate.
+This string should correspond to one of your options.templates regex key (see usage examples)
+In usage examples we use two different keys, 'dev' and 'release' and each one have a different regex to find commits.
+If you want to generate all changelog, put 'all' in this property.
+
+#### options.writeType
+Type: `String`
+Default value: empty
+
+A string to determine if we add changelog to destination file or if we erase content.
+Can be :
+- empty : replace file content
+- "append": insert content to the end of file
+- "prepend": insert content to the beginning of file 
+
+
 #### options.template
 Type: `String`
-Default value: '{{> features}}{{> fixes}}'
+Default value: automatically generated
 
 Defines the global template of generated file.
+If not specified the default value is automatically generated with options.templates.
+In most cases you don't really need to explicitly specified a value in this field.
+It accepts a template like the following :
+```js
+{{> features}}{{> fixes}}
+```
 
 #### options.templates
 Type: `Object`
@@ -82,42 +109,44 @@ Defines all templates needed to generate your file.
 grunt.initConfig({
   changelog_customizable: {
     options: {
-      {
-        start: null,
-        end: null,
-        header: 'Changelog',
-        dest: {
-            dir: './',
-            fileName: 'changelog',
-            extension: 'md'
-        },
-        type: 'dev',
-        template: '{{> features}}{{> fixes}}',
-        templates: {
-            features: {
-                regex: {
-                    dev: /^(.*)feature(.*)$/gim,
-                    release: /^(.*)release(.*)feature(.*)$/gim
-                },
-                template: '{{#if features}}##FEATURE:\n\n{{#each features}}{{> feature}}{{/each}}{{else}}{{/if}}\n'
-            },
-            feature: {
-                template: '\t{{{this}}}\n'
-            },
-            fixes: {
-                regex: {
-                    dev: /^(.*)fixes(.*)$/gim,
-                    release: /^(.*)release(.*)fixes(.*)$/gim
-                },
-                template: '{{#if fixes}}##FIXES:\n\n{{#each fixes}}{{> fix}}{{/each}}{{else}}{{/if}}\n'
-            },
-            fix: {
-                template: '\t{{{this}}}\n'
-            }
-        }
-      }
+     start: null,
+     end: null,
+     header: 'Changelog',
+     dest: {
+         dir: './release-notes/',
+         fileName: 'changelog',
+         extension: 'md'
+     },
+     type: 'dev',
+     templates: {
+         features: {
+             regex: {
+                 dev: /^(.*)feature(.*)$/gim,
+                 release: /^(.*)release(.*)feature(.*)$/gim
+             },
+             template: '##FEATURE:\n\n{{#if features}}{{#each features}}{{> feature}}{{/each}}{{else}}{{/if}}\n'
+         },
+         feature: {
+             template: '\t{{{this}}}\n'
+         },
+         fixes: {
+             regex: {
+                 dev: /^(.*)fixes #\d+:?(.*)$/gim,
+                 release: /^(.*)release(.*)fixes #\d+:?(.*)$/gim
+             },
+             template: '##FIXES:\n\n{{#if fixes}}{{#each fixes}}{{> fix}}{{/each}}{{else}}{{/if}}\n'
+         },
+         hotfixes: {
+             regex: {
+                 dev: /^(.*)hotfix #\d+:?(.*)$/gim
+             },
+             template: '##HOT FIXES:\n\n{{#if hotfixes}}{{#each hotfixes}}{{> fix}}{{/each}}{{else}}{{/if}}\n'
+         },
+         fix: {
+             template: '\t{{{this}}}\n'
+         }
+     }
     }
-  },
 });
 ```
 
@@ -135,3 +164,8 @@ will generate the following file :
     first fix
     second fix
 ```
+
+
+## Contributing
+
+Any help is welcome :)
