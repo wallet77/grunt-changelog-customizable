@@ -96,20 +96,20 @@ grunt.initConfig({
         templates: {
             features: {
                 regex: {
-                    dev: /^(.*)\[FEATURE\](.*)$/gim,
-                    release: /^(.*)closes #\d+:?(.*)$/gim
+                    dev: /^(.*)feature(.*)$/gim,
+                    release: /^(.*)release(.*)feature(.*)$/gim
                 },
-                template: '##FEATURE:\n\n{{#if features}}{{#each features}}{{> feature}}{{/each}}{{else}}{{/if}}\n'
+                template: '{{#if features}}##FEATURE:\n\n{{#each features}}{{> feature}}{{/each}}{{else}}{{/if}}\n'
             },
             feature: {
                 template: '\t{{{this}}}\n'
             },
             fixes: {
                 regex: {
-                    dev: /^(.*)fixes #\d+:?(.*)$/gim,
-                    release: /^(.*)fixes #\d+:?(.*)$/gim
+                    dev: /^(.*)fixes(.*)$/gim,
+                    release: /^(.*)release(.*)fixes(.*)$/gim
                 },
-                template: '##FIXES:\n\n{{#if fixes}}{{#each fixes}}{{> fix}}{{/each}}{{else}}{{/if}}\n'
+                template: '{{#if fixes}}##FIXES:\n\n{{#each fixes}}{{> fix}}{{/each}}{{else}}{{/if}}\n'
             },
             fix: {
                 template: '\t{{{this}}}\n'

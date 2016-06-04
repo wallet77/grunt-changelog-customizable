@@ -38,8 +38,9 @@ module.exports = function (grunt) {
             },
             custom_options: {
                 options: {
+                    type: 'all',
                     dest: {
-                        dir: './release-notes/release/',
+                        dir: './release-notes/custom/',
                         fileName: 'changelog',
                         extension: 'md'
                     },

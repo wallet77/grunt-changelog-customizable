@@ -23,7 +23,7 @@ module.exports = function (grunt) {
                 end: null,
                 header: 'Changelog',
                 dest: {
-                    dir: './',
+                    dir: './release-notes/',
                     fileName: 'changelog',
                     extension: 'md'
                 },
@@ -123,16 +123,16 @@ module.exports = function (grunt) {
             );
         }
 
+        // git with date
         if (isDate) {
             args.push('--after="' + start + '"');
             args.push('--before="' + end + '"');
-        } else {
+        } else { // git with tag
             args.splice(2, 0, start + '..' + end);
         }
 
         grunt.verbose.writeln('git ' + args.join(' '));
 
-        // Run the git log command and parse the result.
         grunt.util.spawn(
             {
                 cmd: 'git',
@@ -145,8 +145,15 @@ module.exports = function (grunt) {
                     return done(false);
                 }
 
-                var changeLog = template(utils.getTemplateData(result, options));
-                utils.writeChangeLogFile(options, grunt, changeLog);
+                var templateData = utils.getTemplateData(result, options),
+                    changeLog;
+
+                for(var key in templateData) {
+                    changeLog = template(templateData[key]);
+                    utils.writeChangeLogFile(options, grunt, key, changeLog);
+                }
+
+
                 done();
             }
         );
