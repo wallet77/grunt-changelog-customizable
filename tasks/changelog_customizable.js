@@ -28,12 +28,12 @@ module.exports = function (grunt) {
                     extension: 'md'
                 },
                 type: 'dev',
-                template: '{{> features}}{{> fixes}}',
+                template: null,
                 templates: {
                     features: {
                         regex: {
-                            dev: /^(.*)\[FEATURE\](.*)$/gim,
-                            release: /^(.*)closes #\d+:?(.*)$/gim
+                            dev: /^(.*)feature(.*)$/gim,
+                            release: /^(.*)release(.*)feature(.*)$/gim
                         },
                         template: '##FEATURE:\n\n{{#if features}}{{#each features}}{{> feature}}{{/each}}{{else}}{{/if}}\n'
                     },
@@ -43,9 +43,15 @@ module.exports = function (grunt) {
                     fixes: {
                         regex: {
                             dev: /^(.*)fixes #\d+:?(.*)$/gim,
-                            release: /^(.*)fixes #\d+:?(.*)$/gim
+                            release: /^(.*)release(.*)fixes #\d+:?(.*)$/gim
                         },
                         template: '##FIXES:\n\n{{#if fixes}}{{#each fixes}}{{> fix}}{{/each}}{{else}}{{/if}}\n'
+                    },
+                    hotfixes: {
+                        regex: {
+                            dev: /^(.*)hotfix #\d+:?(.*)$/gim
+                        },
+                        template: '##HOT FIXES:\n\n{{#if hotfixes}}{{#each hotfixes}}{{> fix}}{{/each}}{{else}}{{/if}}\n'
                     },
                     fix: {
                         template: '\t{{{this}}}\n'
@@ -95,21 +101,29 @@ module.exports = function (grunt) {
         // ------------------------------------------------------------------------------
         //                              Register partials
         // ------------------------------------------------------------------------------
-        var allTemplates = options.templates;
-
-        var template = Handlebars.compile(options.template);
+        var allTemplates = options.templates,
+            globalTemplate = options.template ? options.template : '',
+            compiledGlobalTemplate;
 
         for (var key in allTemplates) {
+
+            // automatically generates global template (if not defined by user) with templates list
+            if(!options.template && allTemplates[key].hasOwnProperty('regex')) {
+                globalTemplate += '{{> ' + key + '}}';
+            }
+
             Handlebars.registerPartial(key, Handlebars.compile(allTemplates[key].template));
         }
 
+        compiledGlobalTemplate = Handlebars.compile(globalTemplate);
 
-        var done = this.async();
+
 
         // ------------------------------------------------------------------------------
         //                              Git command
         // ------------------------------------------------------------------------------
-        var args = [
+        var done = this.async(),
+            args = [
             '--no-pager',
             'log'
         ];
@@ -149,7 +163,7 @@ module.exports = function (grunt) {
                     changeLog;
 
                 for(var key in templateData) {
-                    changeLog = template(templateData[key]);
+                    changeLog = compiledGlobalTemplate(templateData[key]);
                     utils.writeChangeLogFile(options, grunt, key, changeLog);
                 }
 

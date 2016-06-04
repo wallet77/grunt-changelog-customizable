@@ -39,6 +39,7 @@ module.exports = function (grunt) {
             custom_options: {
                 options: {
                     type: 'all',
+                    template: '{{> features}}{{> fixes}}',
                     dest: {
                         dir: './release-notes/custom/',
                         fileName: 'changelog',
