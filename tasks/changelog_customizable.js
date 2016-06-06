@@ -132,7 +132,7 @@ module.exports = function (grunt) {
             args.push.apply(args, options.logArguments);
         } else {
             args.push(
-                '--pretty=format:%s',
+                '--format=%B',
                 '--no-merges'
             );
         }
