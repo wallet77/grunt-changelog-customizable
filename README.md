@@ -1,4 +1,4 @@
-# changelog-customizable
+# grunt-changelog-customizable
 
 > A grunt task to generate changelog from git repository.
 Based on grunt-changelog project.
@@ -108,44 +108,46 @@ Defines all templates needed to generate your file.
 ```js
 grunt.initConfig({
   changelogcustomizable: {
-    options: {
-     start: null,
-     end: null,
-     header: 'Changelog',
-     dest: {
-         dir: './release-notes/',
-         fileName: 'changelog',
-         extension: 'md'
-     },
-     type: 'dev',
-     templates: {
-         features: {
-             regex: {
-                 dev: /^(.*)feature(.*)$/gim,
-                 release: /^(.*)release(.*)feature(.*)$/gim
-             },
-             template: '##FEATURE:\n\n{{#if features}}{{#each features}}{{> feature}}{{/each}}{{else}}{{/if}}\n'
-         },
-         feature: {
-             template: '\t{{{this}}}\n'
-         },
-         fixes: {
-             regex: {
-                 dev: /^(.*)fixes #\d+:?(.*)$/gim,
-                 release: /^(.*)release(.*)fixes #\d+:?(.*)$/gim
-             },
-             template: '##FIXES:\n\n{{#if fixes}}{{#each fixes}}{{> fix}}{{/each}}{{else}}{{/if}}\n'
-         },
-         hotfixes: {
-             regex: {
-                 dev: /^(.*)hotfix #\d+:?(.*)$/gim
-             },
-             template: '##HOT FIXES:\n\n{{#if hotfixes}}{{#each hotfixes}}{{> fix}}{{/each}}{{else}}{{/if}}\n'
-         },
-         fix: {
-             template: '\t{{{this}}}\n'
-         }
-     }
+    changelog: {
+      options: {
+        start: null,
+        end: null,
+        header: 'Changelog',
+        dest: {
+          dir: './release-notes/',
+          fileName: 'changelog',
+          extension: 'md'
+        },
+        type: 'dev',
+        templates: {
+          features: {
+            regex: {
+              dev: /^(.*)feature(.*)$/gim,
+              release: /^(.*)release(.*)feature(.*)$/gim
+            },
+            template: '##FEATURE:\n\n{{#if features}}{{#each features}}{{> feature}}{{/each}}{{else}}{{/if}}\n'
+          },
+          feature: {
+            template: '\t{{{this}}}\n'
+          },
+          fixes: {
+            regex: {
+              dev: /^(.*)fixes #\d+:?(.*)$/gim,
+              release: /^(.*)release(.*)fixes #\d+:?(.*)$/gim
+            },
+            template: '##FIXES:\n\n{{#if fixes}}{{#each fixes}}{{> fix}}{{/each}}{{else}}{{/if}}\n'
+          },
+          hotfixes: {
+            regex: {
+              dev: /^(.*)hotfix #\d+:?(.*)$/gim
+            },
+            template: '##HOT FIXES:\n\n{{#if hotfixes}}{{#each hotfixes}}{{> fix}}{{/each}}{{else}}{{/if}}\n'
+          },
+          fix: {
+            template: '\t{{{this}}}\n'
+          }
+        }
+      }
     }
 });
 ```
