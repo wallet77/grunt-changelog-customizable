@@ -130,4 +130,53 @@ Utils.prototype.writeChangeLogFile = function(options, grunt, type, changelog) {
     grunt.log.writeln('Changelog generated at '+ dest.toString().cyan);
 };
 
+
+Utils.prototype.launchGitLog = function(grunt, options, args, isDate, start, end, compiledGlobalTemplate, done) {
+    var self = this;
+
+    if (options.logArguments) {
+        args.push.apply(args, options.logArguments);
+    } else {
+        args.push(
+            '--format=%B',
+            '--no-merges'
+        );
+    }
+
+    // git with date
+    if (isDate) {
+        args.push('--after="' + start + '"');
+        args.push('--before="' + end + '"');
+    } else { // git with tag
+        args.splice(2, 0, start + '..' + end);
+    }
+
+    grunt.log.writeln('git ' + args.join(' '));
+
+    grunt.util.spawn(
+        {
+            cmd: 'git',
+            args: args
+        },
+
+        function (error, result) {
+            if (error) {
+                grunt.log.error(error);
+                return done(false);
+            }
+
+            var templateData = self.getTemplateData(result, options),
+                changeLog;
+
+            for (var key in templateData) {
+                changeLog = compiledGlobalTemplate(templateData[key]);
+                self.writeChangeLogFile(options, grunt, key, changeLog);
+            }
+
+
+            done();
+        }
+    );
+};
+
 module.exports = new Utils();

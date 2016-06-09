@@ -35,6 +35,7 @@ module.exports = function (grunt) {
             },
             custom_options: {
                 options: {
+                    end: 'v0.3.0',
                     type: 'all',
                     template: '{{> features}}{{> fixes}}',
                     dest: {

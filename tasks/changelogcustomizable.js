@@ -65,20 +65,17 @@ module.exports = function (grunt) {
         // ------------------------------------------------------------------------------
         //                  Switch start and end between date or Git tag
         // ------------------------------------------------------------------------------
-        if (options.start) {
+        if (options.end || options.start) {
 
-            if (!semver.valid(options.start)) {
+            if (!semver.valid(options.end)) {
                 start = moment(options.start);
                 if(!start.isValid()) {
                     start = moment().subtract(14, 'days'); // basic scrum sprint
                 }
 
-                if(options.end) {
-                    end = moment(options.end);
-
-                    if(!end.isValid()) {
-                        end = moment(); // until now
-                    }
+                end = moment(options.end);
+                if(!end.isValid()) {
+                    end = moment(); // until now
                 }
 
                 start.format();
@@ -86,13 +83,11 @@ module.exports = function (grunt) {
 
                 isDate = true;
             } else {
-                start = options.start;
-                end = semver.valid(options.end) ? options.end : null;
+                end = options.end;
+                start = options.start && semver.valid(options.start) ? options.start : null;
             }
 
-        }
-
-        if(!start) {
+        } else {
             start = moment().subtract(14, 'days').format(); // basic scrum sprint
             end = moment().format();
             isDate = true;
@@ -118,7 +113,6 @@ module.exports = function (grunt) {
         compiledGlobalTemplate = Handlebars.compile(globalTemplate);
 
 
-
         // ------------------------------------------------------------------------------
         //                              Git command
         // ------------------------------------------------------------------------------
@@ -128,49 +122,47 @@ module.exports = function (grunt) {
             'log'
         ];
 
-        if (options.logArguments) {
-            args.push.apply(args, options.logArguments);
-        } else {
-            args.push(
-                '--format=%B',
-                '--no-merges'
+        // if we have a git tag for end but nothing into start
+        // then we can get previous tag
+        if(!isDate && !start) {
+            grunt.util.spawn(
+                {
+                    cmd: 'git',
+                    args: ['pull', '--tags']
+                },
+
+                function (error, result) {
+
+                    if (error) {
+                        grunt.log.error(error);
+                        return done(false);
+                    }
+
+
+                    grunt.util.spawn(
+                        {
+                            cmd: 'git',
+                            args: ['describe', '--abbrev=0', end + '^']
+                        },
+
+                        function (error, result) {
+                            if (error) {
+                                grunt.log.error(error);
+                                return done(false);
+                            }
+
+                            start = result;
+
+                            utils.launchGitLog(grunt, options, args, isDate, start, end, compiledGlobalTemplate, done);
+                        }
+                    );
+
+                }
             );
+        } else {
+
+            utils.launchGitLog(grunt, options, args, isDate, start, end, compiledGlobalTemplate, done);
         }
-
-        // git with date
-        if (isDate) {
-            args.push('--after="' + start + '"');
-            args.push('--before="' + end + '"');
-        } else { // git with tag
-            args.splice(2, 0, start + '..' + end);
-        }
-
-        grunt.verbose.writeln('git ' + args.join(' '));
-
-        grunt.util.spawn(
-            {
-                cmd: 'git',
-                args: args
-            },
-
-            function (error, result) {
-                if (error) {
-                    grunt.log.error(error);
-                    return done(false);
-                }
-
-                var templateData = utils.getTemplateData(result, options),
-                    changeLog;
-
-                for(var key in templateData) {
-                    changeLog = compiledGlobalTemplate(templateData[key]);
-                    utils.writeChangeLogFile(options, grunt, key, changeLog);
-                }
-
-
-                done();
-            }
-        );
 
     });
 

@@ -2,8 +2,10 @@
 
 ##FEATURE:
 
-	first changelog generation with basic options
-	commit readme and configuration files
+	[] []  generates changelog file from git repository
+	[] []  allows to generates customizable (template-based) changelog file
+	[] []  allows to find custom git message format
+	[] []  allows to generate multiple changelog file (according to different regex)
 
 ##FIXES:
 
