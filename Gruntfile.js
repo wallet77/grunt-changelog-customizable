@@ -1,6 +1,6 @@
 /*
- * changelog-customizable
- * https://github.com/wallet77/changelog-customizable
+ * grunt-changelog-customizable
+ * https://github.com/wallet77/grunt-changelog-customizable
  *
  * Copyright (c) 2016 Vincent Vallet
  * Licensed under the GNU license.

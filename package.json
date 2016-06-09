@@ -2,22 +2,22 @@
   "name": "grunt-changelog-customizable",
   "description": "A grunt task to generate changelog from git repository.",
   "version": "0.3.3",
-  "homepage": "https://github.com/wallet77/changelog-customizable",
+  "homepage": "https://github.com/wallet77/grunt-changelog-customizable",
   "author": {
     "name": "Vincent Vallet",
     "email": "wallet77@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/wallet77/changelog-customizable.git"
+    "url": "https://github.com/wallet77/grunt-changelog-customizable.git"
   },
   "bugs": {
-    "url": "https://github.com/wallet77/changelog-customizable/issues"
+    "url": "https://github.com/wallet77/grunt-changelog-customizable/issues"
   },
   "licenses": [
     {
       "type": "GNU",
-      "url": "https://github.com/wallet77/changelog-customizable/blob/master/LICENSE-GNU"
+      "url": "https://github.com/wallet77/grunt-changelog-customizable/blob/master/LICENSE-GNU"
     }
   ],
   "engines": {
