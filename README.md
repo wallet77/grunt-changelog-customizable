@@ -43,12 +43,17 @@ Type: `String`
 Default value: null
 
 A string value that is a date or a git tag
+In case of git tag and if options.start is empty then get previous tag as options.start
 
 #### options.start
 Type: `String`
 Default value: null
 
-A string value that is a date or a git tag
+A string value that is a date or a git tag.
+Can be empty if options.end is a git tag. In that case previous git tag will be used as start value.
+```shell
+git describe --abbrev=0 tagname^
+```
 
 #### options.header
 Type: `String`
