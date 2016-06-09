@@ -29,12 +29,9 @@ module.exports = function (grunt) {
         },
 
         // Configuration to be run (and then tested).
-        changelog_customizable: {
+        changelogcustomizable: {
             default_options: {
-                options: {},
-                //files: {
-                //  'tmp/default_options': ['test/fixtures/testing']
-                //}
+                options: {}
             },
             custom_options: {
                 options: {
@@ -46,10 +43,7 @@ module.exports = function (grunt) {
                         extension: 'md'
                     },
                     header: 'Custom header'
-                },
-                //files: {
-                //  'tmp/custom_options': ['test/fixtures/testing']
-                //}
+                }
             }
         },
 
@@ -72,7 +66,7 @@ module.exports = function (grunt) {
 
     // Whenever the "test" task is run, first clean the "tmp" dir, then run this
     // plugin's task(s), then test the result.
-    grunt.registerTask('test', ['clean', 'changelog_customizable', 'nodeunit']);
+    grunt.registerTask('test', ['clean', 'changelogcustomizable', 'nodeunit']);
 
     // By default, lint and run all tests.
     grunt.registerTask('default', ['jshint', 'test']);

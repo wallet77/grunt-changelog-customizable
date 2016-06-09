@@ -15,7 +15,7 @@ module.exports = function (grunt) {
         Handlebars = require('handlebars'),
         utils = require('./Utils');
 
-    grunt.registerMultiTask('changelog_customizable', 'A grunt task to generate changelog from git repository.', function () {
+    grunt.registerMultiTask('changelogcustomizable', 'A grunt task to generate changelog from git repository.', function () {
 
         // Merge task-specific and/or target-specific options with these defaults.
         var options = this.options({

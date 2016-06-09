@@ -25,7 +25,7 @@ In your project's Gruntfile, add a section named `changelog_customizable` to the
 
 ```js
 grunt.initConfig({
-  changelog_customizable: {
+  changelogcustomizable: {
     options: {
       // Task-specific options go here.
     },
@@ -107,7 +107,7 @@ Defines all templates needed to generate your file.
 
 ```js
 grunt.initConfig({
-  changelog_customizable: {
+  changelogcustomizable: {
     options: {
      start: null,
      end: null,
