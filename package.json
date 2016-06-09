@@ -1,5 +1,5 @@
 {
-  "name": "changelog-customizable",
+  "name": "grunt-changelog-customizable",
   "description": "A grunt task to generate changelog from git repository.",
   "version": "0.3.3",
   "homepage": "https://github.com/wallet77/changelog-customizable",
