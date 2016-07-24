@@ -43,7 +43,7 @@ module.exports = function (grunt) {
                         fileName: 'changelog',
                         extension: 'md'
                     },
-                    header: 'Custom header'
+                    header: 'Changelog [v0.3.0](https://github.com/wallet77/grunt-changelog-customizable/releases/tag/v0.3.0)'
                 }
             }
         },

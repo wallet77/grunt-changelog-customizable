@@ -4,6 +4,7 @@
 > You could provide a start and end tag and it will find all commits between these tags.
 > Or you could only provide end tag (and it will take previous take as start tag)
 > By default if no tag are specified, it will take 2 weeks of commits.
+> See example of generated file here : [link](https://github.com/wallet77/grunt-changelog-customizable/examples)
 Based on grunt-changelog project.
 
 ## Getting Started
