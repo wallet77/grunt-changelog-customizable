@@ -4,7 +4,7 @@
   "keywords": [
     "gruntplugin"
   ],
-  "version": "0.5.0",
+  "version": "0.5.1",
   "homepage": "https://github.com/wallet77/grunt-changelog-customizable",
   "author": {
     "name": "Vincent Vallet",
