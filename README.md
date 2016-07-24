@@ -7,6 +7,7 @@
 > See example of generated file here : [link](https://github.com/wallet77/grunt-changelog-customizable/examples)
 Based on grunt-changelog project.
 
+
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
 
