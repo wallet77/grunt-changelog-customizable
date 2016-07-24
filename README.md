@@ -1,6 +1,9 @@
 # grunt-changelog-customizable
 
 > A grunt task to generate changelog from git repository.
+> You could provide a start and end tag and it will find all commits between these tags.
+> Or you could only provide end tag (and it will take previous take as start tag)
+> By default if no tag are specified, it will take 2 weeks of commits.
 Based on grunt-changelog project.
 
 ## Getting Started
@@ -26,11 +29,10 @@ In your project's Gruntfile, add a section named `changelog_customizable` to the
 ```js
 grunt.initConfig({
   changelogcustomizable: {
-    options: {
-      // Task-specific options go here.
-    },
-    your_target: {
-      // Target-specific file lists and/or options go here.
+    changelog: {
+      options: {
+        // Task-specific options go here.
+      },
     },
   },
 });
